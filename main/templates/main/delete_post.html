@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Удалить пост?</title>
+</head>
+<body>
+  <h1>Удалить пост?</h1>
+  <p>Действительно ли Вы хотите удалить пост?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Да</button> или <a href="{{ post.get_absolute_url }}">Отмена</a>
+  </form>
+</body>
+</html>
