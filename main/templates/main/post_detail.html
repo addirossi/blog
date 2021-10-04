@@ -1,0 +1,18 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ post.title }}</title>
+</head>
+<body>
+  <div class="container">
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.description }}</p>
+    {% if post.image %}
+      <img src="{{ post.image.url }}">
+    {% endif %}
+    <div><span>{{ post.created_at|naturaltime }}</span></div>
+  </div>
+</body>
+</html>

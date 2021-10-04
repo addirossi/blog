@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Список постов</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Список постов</h1>
+
+    <div>
+      <a href="{% url 'create-post' %}">Добавить новый пост</a>
+    </div>
+
+    <div>
+      {% for post in posts %}
+      <h3><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
+        {% if post.image %}
+          <img src="{{ post.image.url }}" width="300" height="300">
+        {% else %}
+          <img src="https://via.placeholder.com/300.jpg">
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
