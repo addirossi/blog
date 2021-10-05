@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import render
@@ -16,6 +18,16 @@ class PostsListView(ListView):
     queryset = Post.objects.all()
     template_name = 'main/posts_list.html'
     context_object_name = 'posts'
+    # paginate_by = 2
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        #2021-09-01
+        date = self.request.GET.get('date')
+        if date:
+            # date_obj = datetime.datetime.strptime(date, '%Y-%m-%d')
+            queryset = queryset.filter(created_at__gt=date)
+        return queryset
 
 
 class PostDetailsView(DetailView):
