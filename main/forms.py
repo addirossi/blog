@@ -11,6 +11,23 @@ from main.models import Post
 
 
 class CreatePostForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super().__init__(*args, **kwargs)
+
     class Meta:
         model = Post
-        fields = '__all__'
+        exclude = ('author', )
+
+    def save(self, commit=True):
+        post = super().save(commit=False)
+        post.author = self.request.user
+        post.save()
+        return post
+
+
+class UpdatePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        exclude = ('author', )
