@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
@@ -64,3 +65,15 @@ class DeletePostView(IsAuthorMixin, DeleteView):
     success_url = reverse_lazy('posts-list')
 
 
+class SearchResultsView(ListView):
+    queryset = Post.objects.all()
+    template_name = 'main/posts_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        q = self.request.GET.get('q')
+        if q:
+            queryset = queryset.filter(Q(title__icontains=q) |
+                                       Q(description__icontains=q))
+        return queryset
